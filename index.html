@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abastecimentos</title>
+<title>Métricas · Abastecimentos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,499 +17,256 @@
     --muted: rgba(239,236,228,0.5);
     --amber: #ffb020;
     --amber-dim: #cc8a1a;
-    --danger: #ff5a4e;
     --ok: #6fd08c;
-    --radius: 14px;
+    --danger: #ff5a4e;
   }
-
   *{ box-sizing:border-box; }
-  html,body{ margin:0; height:100%; }
-
+  html,body{ margin:0; }
   body{
     font-family:'Inter', sans-serif;
     background:
-      radial-gradient(circle at 50% -10%, rgba(255,176,32,0.07), transparent 55%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0 2px, transparent 2px 8px),
+      radial-gradient(circle at 50% -10%, rgba(255,176,32,0.06), transparent 55%),
       var(--asphalt-950);
     color:var(--cream);
-    min-height:100%;
-    display:flex;
-    justify-content:center;
+    min-height:100vh;
     padding:32px 18px 60px;
   }
+  .wrap{ max-width:760px; margin:0 auto; }
 
-  .wrap{ width:100%; max-width:460px; }
-
-  /* ---------- gauge header ---------- */
-  .gauge-card{
-    background:var(--asphalt-900);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:22px 22px 18px;
-    margin-bottom:16px;
-    text-align:center;
+  .top{ text-align:center; margin-bottom:26px; position:relative; }
+  .top .brand{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px;
   }
-
-  .brand{
+  .top h1{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:30px; font-weight:700; margin:0; letter-spacing:-0.01em;
+  }
+  .nav-link{
+    display:inline-block;
+    margin-top:14px;
     font-family:'Barlow Condensed', sans-serif;
     font-weight:600;
     font-size:13px;
-    letter-spacing:0.18em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin-bottom:14px;
-  }
-
-  .gauge{ width:100%; max-width:220px; margin:0 auto; }
-
-  .gauge-readout{
-    font-family:'JetBrains Mono', monospace;
-    font-size:13px;
-    color:var(--muted);
-    margin-top:6px;
-  }
-  .gauge-readout b{ color:var(--amber); font-weight:700; }
-
-  /* ---------- card / tabs ---------- */
-  .card{
-    background:var(--asphalt-900);
-    border:1px solid var(--line);
-    border-radius:20px;
-    overflow:hidden;
-  }
-
-  .tabs{
-    display:flex;
-    border-bottom:1px solid var(--line);
-  }
-  .tab{
-    flex:1;
-    padding:14px;
-    text-align:center;
-    font-family:'Barlow Condensed', sans-serif;
-    font-weight:600;
-    font-size:15px;
     letter-spacing:0.03em;
     text-transform:uppercase;
-    color:var(--muted);
-    background:none;
-    border:none;
-    cursor:pointer;
-    position:relative;
-  }
-  .tab.active{ color:var(--amber); }
-  .tab.active::after{
-    content:'';
-    position:absolute;
-    bottom:-1px; left:0; right:0;
-    height:2px;
-    background:var(--amber);
-  }
-
-  .panel{ display:none; padding:22px; }
-  .panel.active{ display:block; }
-
-  /* ---------- fields ---------- */
-  .field{ margin-bottom:16px; }
-  .field label{
-    display:block;
-    font-family:'Barlow Condensed', sans-serif;
-    font-weight:600;
-    font-size:12.5px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin-bottom:7px;
-  }
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-
-  input, select, textarea{
-    width:100%;
-    background:var(--asphalt-800);
-    border:1px solid var(--line);
-    color:var(--cream);
-    font-family:'Inter', sans-serif;
-    font-size:14.5px;
-    padding:11px 12px;
-    border-radius:10px;
-    outline:none;
-  }
-  input::placeholder, textarea::placeholder{ color:rgba(239,236,228,0.3); }
-  input:focus, select:focus, textarea:focus{ border-color:var(--amber-dim); }
-  input[type="number"]{ font-family:'JetBrains Mono', monospace; }
-
-  select{ appearance:none; -webkit-appearance:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23efece4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 10px center; background-size:16px;
-    padding-right:34px;
-  }
-
-  .posto-row{ display:flex; gap:8px; }
-  .posto-row select{ flex:1; }
-  .btn-icon{
-    width:42px; height:42px; flex-shrink:0;
-    background:var(--asphalt-800);
-    border:1px solid var(--line);
-    border-radius:10px;
     color:var(--amber);
-    font-size:20px;
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    line-height:1;
-  }
-  .btn-icon:hover{ border-color:var(--amber-dim); }
-
-  .toggle-row{
-    display:flex; align-items:center; justify-content:space-between;
-    background:var(--asphalt-800);
+    text-decoration:none;
+    padding:6px 12px;
     border:1px solid var(--line);
-    border-radius:10px;
-    padding:11px 14px;
+    border-radius:8px;
+    transition:border-color 0.15s ease;
   }
-  .toggle-row label{ margin:0; font-family:'Inter'; font-size:14px; text-transform:none; letter-spacing:0; color:var(--cream); font-weight:400; }
-  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
-  .switch input{ opacity:0; width:0; height:0; }
-  .slider{
-    position:absolute; inset:0; background:var(--asphalt-950);
-    border:1px solid var(--line); border-radius:14px; cursor:pointer; transition:0.15s;
-  }
-  .slider::before{
-    content:''; position:absolute; width:16px; height:16px; left:3px; top:2.5px;
-    background:var(--muted); border-radius:50%; transition:0.15s;
-  }
-  .switch input:checked + .slider{ background:rgba(255,176,32,0.18); border-color:var(--amber-dim); }
-  .switch input:checked + .slider::before{ background:var(--amber); transform:translateX(18px); }
+  .nav-link:hover{ border-color:var(--amber-dim); }
 
-  .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
-
-  .btn-primary{
-    width:100%;
-    background:var(--amber);
-    color:var(--asphalt-950);
-    border:none;
-    border-radius:10px;
-    padding:14px;
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .stat{
+    background:var(--asphalt-900);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px 16px;
+  }
+  .stat .label{
     font-family:'Barlow Condensed', sans-serif;
-    font-weight:700;
-    font-size:15.5px;
-    letter-spacing:0.03em;
-    text-transform:uppercase;
-    cursor:pointer;
-    margin-top:4px;
-    transition:transform 0.12s ease, opacity 0.12s ease;
+    font-size:12px; font-weight:600; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:8px;
   }
-  .btn-primary:hover{ transform:translateY(-1px); }
-  .btn-primary:disabled{ opacity:0.45; cursor:not-allowed; transform:none; }
+  .stat .value{
+    font-family:'JetBrains Mono', monospace;
+    font-size:24px; font-weight:700; color:var(--amber);
+    line-height:1.1;
+  }
+  .stat .value small{ font-size:13px; color:var(--muted); font-weight:400; margin-left:2px; }
+  .stat.wide{ grid-column:span 2; }
 
-  .msg{
-    margin-top:12px;
-    padding:11px 13px;
-    border-radius:10px;
-    font-size:13.5px;
-    display:none;
+  .section{
+    background:var(--asphalt-900);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px 20px 8px;
+    margin-bottom:18px;
   }
-  .msg.show{ display:block; }
-  .msg.ok{ background:rgba(111,208,140,0.1); border:1px solid rgba(111,208,140,0.3); color:var(--ok); }
-  .msg.err{ background:rgba(255,90,78,0.1); border:1px solid rgba(255,90,78,0.3); color:var(--danger); }
+  .section h2{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:16px; font-weight:600; letter-spacing:0.02em;
+    text-transform:uppercase; margin:0 0 14px; color:var(--cream);
+  }
+
+  table{ width:100%; border-collapse:collapse; margin-bottom:12px; }
+  th{
+    text-align:left; font-family:'Barlow Condensed', sans-serif;
+    font-size:11.5px; font-weight:600; letter-spacing:0.05em;
+    text-transform:uppercase; color:var(--muted);
+    padding:8px 10px; border-bottom:1px solid var(--line);
+  }
+  td{
+    font-size:13.5px; padding:10px;
+    border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+  }
+  td.text{ font-family:'Inter', sans-serif; }
+  tr:last-child td{ border-bottom:none; }
+
+  .bar-row{ display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .bar-row:last-child{ border-bottom:none; }
+  .bar-label{ width:70px; flex-shrink:0; font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--muted); }
+  .bar-track{ flex:1; height:10px; background:var(--asphalt-800); border-radius:6px; overflow:hidden; }
+  .bar-fill{ height:100%; background:linear-gradient(90deg, var(--amber-dim), var(--amber)); border-radius:6px; }
+  .bar-value{ width:78px; flex-shrink:0; text-align:right; font-family:'JetBrains Mono', monospace; font-size:12.5px; }
+
+  .empty{ text-align:center; padding:26px 10px; color:var(--muted); font-size:13.5px; }
+  .empty b{ color:var(--cream); }
+
+  .loading{ text-align:center; color:var(--muted); padding:60px 0; font-family:'JetBrains Mono', monospace; font-size:13px; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <div class="gauge-card">
-    <div class="brand">registro de abastecimento</div>
-    <svg class="gauge" viewBox="0 0 220 130" id="gaugeSvg">
-      <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#28282e" stroke-width="14" stroke-linecap="round"/>
-      <path id="gaugeArc" d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#ffb020" stroke-width="14" stroke-linecap="round"
-            stroke-dasharray="283" stroke-dashoffset="283"/>
-      <text x="20" y="126" fill="#efece4" opacity="0.35" font-family="JetBrains Mono" font-size="11">E</text>
-      <text x="192" y="126" fill="#efece4" opacity="0.35" font-family="JetBrains Mono" font-size="11">F</text>
-      <text x="110" y="95" fill="#efece4" font-family="JetBrains Mono" font-size="22" font-weight="700" text-anchor="middle" id="gaugeNum">0</text>
-      <text x="110" y="112" fill="#efece4" opacity="0.4" font-family="Barlow Condensed" font-size="10" text-anchor="middle" letter-spacing="1">LITROS</text>
-    </svg>
-    <div class="gauge-readout">total: <b id="totalReadout">R$ 0,00</b></div>
+  <div class="top">
+    <div class="brand">painel de consumo</div>
+    <h1>Métricas do veículo</h1>
+    <a href="index.html" class="nav-link">← Registrar abastecimento</a>
   </div>
 
-  <div class="card">
-    <div class="tabs">
-      <button class="tab active" data-tab="abastecer">Abastecer</button>
-      <button class="tab" data-tab="posto">Novo posto</button>
+  <div id="loading" class="loading">carregando dados...</div>
+  <div id="content" style="display:none;">
+
+    <div class="grid" id="statsGrid"></div>
+
+    <div class="section">
+      <h2>Gasto por mês</h2>
+      <div id="mesesContainer"></div>
     </div>
 
-    <!-- ===== PAINEL: ABASTECER ===== -->
-    <form class="panel active" id="panelAbastecer" data-panel="abastecer">
-      <div class="row2">
-        <div class="field">
-          <label for="data">Data</label>
-          <input type="date" id="data" name="data">
-        </div>
-        <div class="field">
-          <label for="combustivel">Combustível</label>
-          <select id="combustivel" name="combustivel">
-            <option value="gasolina comum" selected>Gasolina comum</option>
-            <option value="gasolina aditivada">Gasolina aditivada</option>
-            <option value="etanol">Etanol</option>
-            <option value="diesel">Diesel</option>
-            <option value="diesel s10">Diesel S10</option>
-            <option value="gnv">GNV</option>
-          </select>
-        </div>
-      </div>
+    <div class="section">
+      <h2>Consumo entre tanques cheios</h2>
+      <div id="tanquesContainer"></div>
+    </div>
 
-      <div class="field">
-        <label for="posto">Posto</label>
-        <div class="posto-row">
-          <select id="posto" name="posto">
-            <option value="">Carregando postos...</option>
-          </select>
-          <button type="button" class="btn-icon" id="irParaCadastro" title="Cadastrar novo posto">+</button>
-        </div>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label for="valorTotal">Valor pago (R$)</label>
-          <input type="number" id="valorTotal" name="valorTotal" placeholder="300.00" step="0.01" min="0" inputmode="decimal">
-        </div>
-        <div class="field">
-          <label for="litros">Litros</label>
-          <input type="number" id="litros" name="litros" placeholder="30.000" step="0.001" min="0" inputmode="decimal">
-        </div>
-      </div>
-      <p class="hint" id="calcHint">Preencha valor + litros (ou deixe litros em branco se souber só o valor do litro).</p>
-
-      <div class="field">
-        <label for="valorLitro">Valor do litro (R$) — opcional</label>
-        <input type="number" id="valorLitro" name="valorLitro" placeholder="calculado automaticamente" step="0.001" min="0" inputmode="decimal">
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label for="kmAtual">Km atual</label>
-          <input type="number" id="kmAtual" name="kmAtual" placeholder="52340" min="0" inputmode="numeric" required>
-        </div>
-        <div class="field">
-          <label>Tanque cheio?</label>
-          <div class="toggle-row">
-            <label for="tanqueCheio">Encheu o tanque</label>
-            <span class="switch">
-              <input type="checkbox" id="tanqueCheio" checked>
-              <span class="slider"></span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="observacao">Observação — opcional</label>
-        <textarea id="observacao" name="observacao" rows="2" placeholder="ex: promoção, fila grande, etc."></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary" id="btnRegistrar">Registrar abastecimento</button>
-      <div class="msg" id="msgAbastecer"></div>
-    </form>
-
-    <!-- ===== PAINEL: NOVO POSTO ===== -->
-    <form class="panel" id="panelPosto" data-panel="posto">
-      <div class="field">
-        <label for="nomePosto">Nome do posto</label>
-        <input type="text" id="nomePosto" name="nomePosto" placeholder="ex: Posto Galo">
-      </div>
-      <div class="field">
-        <label for="cidadePosto">Cidade — opcional</label>
-        <input type="text" id="cidadePosto" name="cidadePosto" placeholder="ex: Biguaçu">
-      </div>
-      <div class="field">
-        <label for="referenciaPosto">Referência — opcional</label>
-        <input type="text" id="referenciaPosto" name="referenciaPosto" placeholder="ex: perto da Havan, no viaduto">
-      </div>
-      <button type="submit" class="btn-primary" id="btnCadastrarPosto">Cadastrar posto</button>
-      <div class="msg" id="msgPosto"></div>
-    </form>
   </div>
-
 </div>
 
 <script>
   // 🔧 Ajuste para a URL base do seu n8n
   const BASE_URL = "https://felipefeyh.app.n8n.cloud/webhook";
 
-  // ---------- tabs ----------
-  const tabs = document.querySelectorAll('.tab');
-  const panels = document.querySelectorAll('.panel');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.querySelector('.panel[data-panel="' + tab.dataset.tab + '"]').classList.add('active');
-    });
-  });
-  document.getElementById('irParaCadastro').addEventListener('click', () => {
-    document.querySelector('.tab[data-tab="posto"]').click();
-  });
-
-  // ---------- data default = hoje ----------
-  document.getElementById('data').valueAsDate = new Date();
-
-  // ---------- gauge ----------
-  const CAPACIDADE_REFERENCIA = 50; // litros, só de referência visual
-  const gaugeArc = document.getElementById('gaugeArc');
-  const gaugeNum = document.getElementById('gaugeNum');
-  const totalReadout = document.getElementById('totalReadout');
-  const ARC_LENGTH = 283;
-
-  function atualizarGauge(){
-    const litros = parseFloat(document.getElementById('litros').value) || 0;
-    const valorTotal = parseFloat(document.getElementById('valorTotal').value) || 0;
-    const pct = Math.max(0, Math.min(1, litros / CAPACIDADE_REFERENCIA));
-    gaugeArc.style.strokeDashoffset = ARC_LENGTH - (ARC_LENGTH * pct);
-    gaugeNum.textContent = litros ? litros.toFixed(1) : '0';
-    totalReadout.textContent = 'R$ ' + valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+  function fmtMoeda(v){
+    return 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtNum(v, casas = 2){
+    return v === null || v === undefined ? '—' : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: casas, maximumFractionDigits: casas });
+  }
+  function fmtMes(mesStr){
+    const [ano, mes] = mesStr.split('-');
+    const nomes = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    return nomes[parseInt(mes) - 1] + '/' + ano.slice(2);
+  }
+  function fmtData(dataStr){
+    const d = new Date(dataStr);
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
   }
 
-  // ---------- cálculo automático litros <-> valor/litro ----------
-  const valorTotalEl = document.getElementById('valorTotal');
-  const litrosEl = document.getElementById('litros');
-  const valorLitroEl = document.getElementById('valorLitro');
-  let ultimoEditado = null;
-
-  [valorTotalEl, litrosEl].forEach(el => el.addEventListener('input', () => { ultimoEditado = el.id; recalcular(); atualizarGauge(); }));
-  valorLitroEl.addEventListener('input', () => { ultimoEditado = 'valorLitro'; recalcular(); });
-
-  function recalcular(){
-    const vt = parseFloat(valorTotalEl.value);
-    const lt = parseFloat(litrosEl.value);
-    const vl = parseFloat(valorLitroEl.value);
-
-    if (ultimoEditado !== 'valorLitro' && vt && lt) {
-      valorLitroEl.value = (vt / lt).toFixed(3);
-    } else if (ultimoEditado === 'valorLitro' && vt && vl) {
-      litrosEl.value = (vt / vl).toFixed(3);
-      atualizarGauge();
-    }
-  }
-
-  // ---------- carregar postos ----------
-  const postoSelect = document.getElementById('posto');
-
-  async function carregarPostos(){
+  async function carregar(){
     try{
-      const res = await fetch(BASE_URL + '/abastecimento/postos');
+      const res = await fetch(BASE_URL + '/abastecimento/metricas');
       const data = await res.json();
-      const postos = data.postos || [];
-      if (postos.length === 0){
-        postoSelect.innerHTML = '<option value="">Nenhum posto cadastrado ainda</option>';
-        return;
-      }
-      postoSelect.innerHTML = '<option value="">Selecione um posto</option>' +
-        postos.map(p => `<option value="${p.id}">${p.nome}${p.cidade ? ' · ' + p.cidade : ''}</option>`).join('');
+      renderizar(data);
     }catch(err){
-      postoSelect.innerHTML = '<option value="">Não foi possível carregar</option>';
+      document.getElementById('loading').textContent = 'Não foi possível carregar as métricas agora.';
       console.error(err);
     }
   }
-  carregarPostos();
 
-  // ---------- mensagens ----------
-  function mostrarMsg(el, tipo, texto){
-    el.className = 'msg show ' + tipo;
-    el.textContent = texto;
+  function renderizar(data){
+    const r = data.resumo || {};
+
+    // ---- cards de estatística ----
+    const stats = [
+      { label: 'Média km/l', value: r.mediaKmLitroPonderada, unidade: 'km/l', wide: false },
+      { label: 'Custo por km', value: r.custoPorKm, unidade: 'R$/km', wide: false, moeda: true },
+      { label: 'Gasto total', value: r.gastoTotal, unidade: '', wide: true, moedaGrande: true },
+      { label: 'Litros abastecidos', value: r.litrosTotal, unidade: 'L', wide: false },
+      { label: 'Preço médio do litro', value: r.precoMedioLitro, unidade: 'R$/L', wide: false, moeda: true },
+      { label: 'Km percorridos (medidos)', value: r.kmPercorridosMedidos, unidade: 'km', wide: false, casas: 0 },
+      { label: 'Abastecimentos', value: r.totalAbastecimentos, unidade: '', wide: false, casas: 0 }
+    ];
+
+    const grid = document.getElementById('statsGrid');
+    grid.innerHTML = stats.map(s => `
+      <div class="stat ${s.wide ? 'wide' : ''}">
+        <div class="label">${s.label}</div>
+        <div class="value">${
+          s.value === null || s.value === undefined
+            ? '—'
+            : (s.moedaGrande ? fmtMoeda(s.value) : (s.moeda ? 'R$ ' + fmtNum(s.value, 3) : fmtNum(s.value, s.casas ?? 2)))
+        }${s.unidade && !s.moedaGrande && !s.moeda ? '<small>' + s.unidade + '</small>' : ''}</div>
+      </div>
+    `).join('');
+
+    // ---- gasto por mês ----
+    const porMes = data.porMes || [];
+    const mesesContainer = document.getElementById('mesesContainer');
+    if (porMes.length === 0){
+      mesesContainer.innerHTML = '<div class="empty">Nenhum abastecimento registrado ainda.</div>';
+    } else {
+      const maxGasto = Math.max(...porMes.map(m => parseFloat(m.gasto)));
+      mesesContainer.innerHTML = porMes.map(m => {
+        const gasto = parseFloat(m.gasto);
+        const pct = maxGasto ? (gasto / maxGasto) * 100 : 0;
+        return `
+          <div class="bar-row">
+            <div class="bar-label">${fmtMes(m.mes)}</div>
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+            <div class="bar-value">${fmtMoeda(gasto)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ---- tabela de intervalos entre tanques cheios ----
+    const porTanque = data.porTanqueCheio || [];
+    const tanquesContainer = document.getElementById('tanquesContainer');
+    if (porTanque.length === 0){
+      tanquesContainer.innerHTML = '<div class="empty">Ainda não há <b>2 abastecimentos com tanque cheio</b> pra calcular um intervalo de consumo.</div>';
+    } else {
+      tanquesContainer.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Posto</th>
+              <th>Km rodados</th>
+              <th>Litros</th>
+              <th>Km/l</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${porTanque.map(t => `
+              <tr>
+                <td class="text">${fmtData(t.data)}</td>
+                <td class="text">${t.posto_nome || '—'}</td>
+                <td>${fmtNum(t.km_percorridos, 0)}</td>
+                <td>${fmtNum(t.litros, 1)}</td>
+                <td style="color:var(--amber)">${fmtNum(t.km_por_litro, 2)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
   }
 
-  // ---------- submit: registrar abastecimento ----------
-  document.getElementById('panelAbastecer').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('btnRegistrar');
-    const msg = document.getElementById('msgAbastecer');
-    msg.className = 'msg';
-
-    const valorTotal = parseFloat(valorTotalEl.value);
-    const litros = litrosEl.value ? parseFloat(litrosEl.value) : null;
-    const valorLitro = valorLitroEl.value ? parseFloat(valorLitroEl.value) : null;
-    const kmAtual = document.getElementById('kmAtual').value;
-
-    if (!valorTotal || (!litros && !valorLitro) || !kmAtual){
-      mostrarMsg(msg, 'err', 'Informe o valor pago, litros (ou valor do litro) e o km atual.');
-      return;
-    }
-
-    const payload = {
-      data: document.getElementById('data').value,
-      postoId: postoSelect.value || null,
-      combustivel: document.getElementById('combustivel').value,
-      valorTotal,
-      litros,
-      valorLitro,
-      kmAtual,
-      tanqueCheio: document.getElementById('tanqueCheio').checked,
-      observacao: document.getElementById('observacao').value || null,
-      origem: 'html'
-    };
-
-    btn.disabled = true;
-    try{
-      const res = await fetch(BASE_URL + '/abastecimento/registrar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (!res.ok || !data.sucesso) throw new Error(data.erro || 'Erro ao registrar');
-
-      mostrarMsg(msg, 'ok', 'Abastecimento registrado! ⛽');
-      document.getElementById('panelAbastecer').reset();
-      document.getElementById('data').valueAsDate = new Date();
-      document.getElementById('tanqueCheio').checked = true;
-      atualizarGauge();
-    }catch(err){
-      mostrarMsg(msg, 'err', 'Não deu pra registrar agora. Tenta de novo em instantes.');
-      console.error(err);
-    }finally{
-      btn.disabled = false;
-    }
-  });
-
-  // ---------- submit: cadastrar posto ----------
-  document.getElementById('panelPosto').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('btnCadastrarPosto');
-    const msg = document.getElementById('msgPosto');
-    msg.className = 'msg';
-
-    const nome = document.getElementById('nomePosto').value.trim();
-    if (!nome){
-      mostrarMsg(msg, 'err', 'Informe o nome do posto.');
-      return;
-    }
-
-    const payload = {
-      nome,
-      cidade: document.getElementById('cidadePosto').value || null,
-      referencia: document.getElementById('referenciaPosto').value || null
-    };
-
-    btn.disabled = true;
-    try{
-      const res = await fetch(BASE_URL + '/abastecimento/postos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (!res.ok || !data.sucesso) throw new Error('Erro ao cadastrar');
-
-      mostrarMsg(msg, 'ok', 'Posto cadastrado! 📍');
-      document.getElementById('panelPosto').reset();
-      await carregarPostos();
-      setTimeout(() => document.querySelector('.tab[data-tab="abastecer"]').click(), 900);
-    }catch(err){
-      mostrarMsg(msg, 'err', 'Não deu pra cadastrar agora. Tenta de novo em instantes.');
-      console.error(err);
-    }finally{
-      btn.disabled = false;
-    }
-  });
+  carregar();
 </script>
 </body>
 </html>
